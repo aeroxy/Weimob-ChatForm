@@ -1,0 +1,14 @@
+::selection{
+  color: black;
+  background: #edaa00;
+}
+*{
+  font-family: '微软雅黑', 'Microsoft Yahei', 'Heiti', Sans-Serif;
+}
+html,body,#app {
+  width: 100%;
+  height: 100%;
+}
+#app {
+  visibility: hidden;
+}

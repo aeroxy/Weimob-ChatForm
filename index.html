@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="ChatForm">
+  <head>
+    <title>微盟 | 交互式表格</title>
+    <meta lang="zh-cmn-Hans" charset="utf-8">
+    <meta name="author" content="Aero Wang">
+    <mata name="publisher" href="http://www.weimob.com/">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="css/conversational-form.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <script src="js/firebase.js"></script>
+    <script src="js/conversational-form.min.js"></script>
+  </head>
+  <body oncontextmenu="return false">
+    <div id="app">
+      <form id="chat" method="post" action="" enctype="multipart/form-data">
+          <fieldset>
+            <input required cf-questions="欢迎来到微盟！你好哇～(*¯︶¯*)。请上传一张照片吧～" type="file" class="form-control" name="pic" accept="image/*" id="pic">
+          </fieldset>
+          <fieldset>
+            <input required cf-questions="对了，怎么称呼您？" type="text" class="form-control" name="name" id="name">
+          </fieldset>
+          <fieldset>
+            <div class="radio">
+            <label>
+              <input cf-questions="好呀好呀，我是对话表格（不是表哥哦）。{previous-answer}您是做什么哒？|嗯嗯嗯，{previous-answer}您的职业是什麽～" type="radio" name="occupation" id="occupation-1" value="developer">
+              攻城狮🦁️
+            </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="occupation" id="occupation-2" value="designer">
+                色鸡师🐔
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="occupation" id="occupation-3" value="product guy">
+                产品鲸鲤🐳
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="occupation" id="occupation-2" value="other">
+                奇它👀
+              </label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <input cf-questions="您是哪个单位的呀？" type="text" class="form-control" name="company" id="company">
+          </fieldset>
+          <fieldset>
+            <select cf-questions="您觉得微盟怎么样？" name="opinion" id="opinion" class="form-control">
+              <option></option>
+              <option>八错滴</option>
+              <option>还扣以啦</option>
+              <option>呃……╮(￣▽￣"")╭</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <input pattern=".+\@.+\..+" cf-error="嗷，这个不是邮件地址吧吧吧吧吧" cf-questions="您的电子邮件是啥？" type="email" class="form-control" name="email" id="your-email">
+          </fieldset>
+          <fieldset>
+            <select cf-questions="您想要投递您的信息了吗？" name="submit-form" id="submit-form" class="form-control">
+              <option value="no">不要嘛</option>
+              <option value="yes">是滴</option>
+            </select>
+          </fieldset>
+          <fieldset>
+            <select cf-questions="您想要重来一遍？" name="repeat" id="repeat" class="form-control">
+              <option value="no">不啦</option>
+              <option value="yes">好呀好呀</option>
+            </select>
+          </fieldset>
+          <button type="submit" class="btn btn-default">投递</button>
+        </form>
+    </div>
+  </body>
+  <script src="js/script.js"></script>
+</html>

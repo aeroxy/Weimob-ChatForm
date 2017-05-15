@@ -1,3 +1,6 @@
+$(window).on('resize',function(){
+  $('cf-chat scrollable').scrollTop(65534);
+});
 var submitted = false;
 var config = {
   apiKey: "AIzaSyAwi6QIrGQLsWOc_tRydxgU9UjGFHaYGSE",
@@ -11,22 +14,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var WeimobChat = new cf.ConversationalForm({
   formEl: document.getElementById('chat'),
+  userImage: 'img/human.png',
   submitCallback: function(){},
   flowStepCallback: function(dto, success, error){
     function submission(){
-      // var xhr = new XMLHttpRequest();
-      // xhr.addEventListener('load', function () {
-      //   WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌');
-      //   success();
-      // });
-      // xhr.open('POST', document.getElementById('chat').getAttribute('action'));
-      // xhr.setRequestHeader('accept', 'application/javascript');
-      // xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.send(JSON.stringify(WeimobChat._eventTarget.cf.getFormData(true)));
-      // var now = new Date();
-      // var timecode = now.getTime();
       var jsonform = WeimobChat._eventTarget.cf.getFormData(true);
-      console.log(WeimobChat._eventTarget.cf.getFormData(true));
       var file = document.querySelector('#chat > fieldset > input[type="file"]').files[0];
       var reader = new FileReader();
       reader.readAsDataURL(file);
@@ -34,41 +26,43 @@ var WeimobChat = new cf.ConversationalForm({
         console.log('Error: ', error);
       };
       reader.onload = function(){
-        var base64 = reader.result;
-        jsonform.pic = base64;
-        console.log(jsonform);
+        var img = new Image();
+        img.src = reader.result;
+        var canvas = document.createElement('canvas');
+        img.onload = function(){
+          canvas.width = img.width;
+          canvas.height = img.height;
+        }
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+        jsonform.pic = canvas.toDataURL('image/jpeg', 0.5);
         firebase.database().ref((new Date()).getTime()).set(
           jsonform
-          // JSON.stringify(WeimobChat._eventTarget.cf.getFormData(true))
         ).then(function(){
-          WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌');
-          success();
+          WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
         });
-        submitted = true;
       };
     }
     if (dto.tag.domElement) {
-      if (dto.tag.domElement.getAttribute('name') == 'repeat') {
-        if (dto.tag.domElement.value == 'yes') {
-          location.reload();
-        } else {
-          if (!submitted)
-          submission();
-        }
-      }
-      else if (dto.tag.domElement.getAttribute('name') == 'submit-form') {
-        if (dto.tag.domElement.value == 'yes') {
-          submission();
-        } else {
+      if (dto.tag.domElement.getAttribute('name') == 'number') {
+        success();
+        document.getElementsByTagName('textarea')[0].setAttribute('disabled','disabled');
+      } else
+      if (dto.tag.domElement.getAttribute('name') == 'mission') {
+        if (dto.tag.domElement.value == 'business') {
           success();
+          document.getElementsByTagName('textarea')[0].removeAttribute('disabled');
+        } else {
+          submission();
         }
+      } else if (dto.tag.domElement.getAttribute('name') == 'visitee') {
+        submission();
       }
       else {
         success();
       }
-    }
-    else {
+    } else {
       success();
     }
   }
-});
+})

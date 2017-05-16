@@ -1,7 +1,10 @@
-$(window).on('resize',function(){
-  $('cf-chat scrollable').scrollTop(65534);
+$(function(){
+  $('textarea').focus(function(){
+    setTimeout(function(){
+      $('body').scrollTop(65535);
+    },100);
+  });
 });
-var submitted = false;
 var config = {
   apiKey: "AIzaSyAwi6QIrGQLsWOc_tRydxgU9UjGFHaYGSE",
   authDomain: "weimob-chatform.firebaseapp.com",
@@ -39,7 +42,10 @@ var WeimobChat = new cf.ConversationalForm({
         firebase.database().ref((new Date()).getTime()).set(
           jsonform
         ).then(function(){
+          $('thinking').parent().parent().remove();
+          WeimobChat._eventTarget.cf.addUserChatResponse(value);
           WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
+          document.getElementsByTagName('cf-input')[0].setAttribute('style','display:none');
         });
       };
     }
@@ -47,16 +53,15 @@ var WeimobChat = new cf.ConversationalForm({
       if (dto.tag.domElement.getAttribute('name') == 'number') {
         success();
         document.getElementsByTagName('textarea')[0].setAttribute('disabled','disabled');
-      } else
-      if (dto.tag.domElement.getAttribute('name') == 'mission') {
-        if (dto.tag.domElement.value == 'business') {
+      } else if (dto.tag.domElement.getAttribute('name') == 'mission') {
+        if (dto.tag.domElement.value == '公务') {
           success();
           document.getElementsByTagName('textarea')[0].removeAttribute('disabled');
         } else {
-          submission();
+          submission(dto.tag.domElement.value);
         }
       } else if (dto.tag.domElement.getAttribute('name') == 'visitee') {
-        submission();
+        submission(dto.tag.domElement.value);
       }
       else {
         success();

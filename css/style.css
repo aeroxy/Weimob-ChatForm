@@ -4,13 +4,24 @@
 }
 *{
   font-family: '微软雅黑', 'Microsoft Yahei', 'Heiti', Sans-Serif;
+  font-size: 14px;
 }
 html,body {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+}
+#test {
+  width: 100%;
+  height: 100%;
   margin: 0;
+  padding: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  background: url(../img/robot.png) no-repeat center;
 }
 #app {
   margin: 0;
@@ -64,7 +75,8 @@ html,body {
   max-width: 300px;
 }
 .conversational-form cf-input {
-  /*position: fixed;*/
+  bottom: 0;
+  right: 0;
   margin-right: 0;
   margin-bottom: 0;
 }
@@ -73,6 +85,7 @@ html,body {
 }
 .conversational-form cf-input input,
 .conversational-form cf-input textarea {
+  height: 56px;
   padding: 20px;
   font-size: 14px;
   outline: none;
@@ -83,6 +96,7 @@ html,body {
 .conversational-form cf-input input:not(:focus),
 .conversational-form cf-input textarea:not(:focus) {
   background-color: #f8f8f8;
+  box-shadow: 0 0 50px 0 rgba(150,165,190,.33);
 }
 .conversational-form cf-input-button.cf-input-button {
   bottom: 14px;
@@ -108,11 +122,17 @@ html,body {
     height: 24px;
     width: 24px;
   }
-  .conversational-form cf-chat-response.robot {
-  padding-left: 64px;
+  .conversational-form cf-chat-response.robot thumb {
+  margin-left: 5px;
+  }
+  .conversational-form cf-chat-response.user thumb {
+    margin-right: 5px;
+  }
+    .conversational-form cf-chat-response.robot {
+  padding-left: 34px;
   }
   .conversational-form cf-chat-response.user {
-    padding-right: 64px;
+    padding-right: 34px;
   }
   .conversational-form cf-chat-response .file-icon img {
     max-height: 150px;

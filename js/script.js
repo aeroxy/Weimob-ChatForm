@@ -20,7 +20,7 @@ var WeimobChat = new cf.ConversationalForm({
   userImage: 'img/human.png',
   submitCallback: function(){},
   flowStepCallback: function(dto, success, error){
-    function submission(){
+    function submission(value){
       var jsonform = WeimobChat._eventTarget.cf.getFormData(true);
       var file = document.querySelector('#chat > fieldset > input[type="file"]').files[0];
       var reader = new FileReader();

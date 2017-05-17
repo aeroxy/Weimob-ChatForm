@@ -1,9 +1,64 @@
-$(function(){
-  $('textarea').focus(function(){
-    setTimeout(function(){
-      $('body').scrollTop(65535);
-    },100);
-  });
+(function(funcName, baseObj) {
+  funcName = funcName || 'docReady';
+  baseObj = baseObj || window;
+  var readyList = [];
+  var readyFired = false;
+  var readyEventHandlersInstalled = false;
+  function ready() {
+    if (!readyFired) {
+      readyFired = true;
+      for (var i = 0; i < readyList.length; i++) {
+        readyList[i].fn.call(window, readyList[i].ctx);
+      }
+      readyList = [];
+    }
+  }
+  function readyStateChange() {
+    if ( document.readyState === 'complete' ) {
+      ready();
+    }
+  }
+  baseObj[funcName] = function(callback, context) {
+    if (typeof callback !== 'function') {
+      throw new TypeError('callback for docReady(fn) must be a function');
+    }
+    if (readyFired) {
+      setTimeout(function() {callback(context);}, 1);
+      return;
+    } else {
+      readyList.push({fn: callback, ctx: context});
+    }
+    if (document.readyState === 'complete') {
+      setTimeout(ready, 1);
+    } else if (!readyEventHandlersInstalled) {
+      if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', ready, false);
+        window.addEventListener('load', ready, false);
+      } else {
+        document.attachEvent('onreadystatechange', readyStateChange);
+        window.attachEvent('onload', ready);
+      }
+      readyEventHandlersInstalled = true;
+    }
+  }
+})('docReady', window);
+docReady(function() {
+  var loading = document.getElementById('loading');
+  loading.remove();
+  var textarea = document.getElementsByTagName('textarea');
+  if(!document.addEventListener){
+    textarea[0].attachEvent('focus', function(){
+      setTimeout(function(){
+        window.scrollTo(0, 65535);
+      },100);
+    });
+  } else {
+    textarea[0].addEventListener('focus', function(){
+      setTimeout(function(){
+        window.scrollTo(0, 65535);
+      },100);
+    });
+  }
 });
 var config = {
   apiKey: "AIzaSyAwi6QIrGQLsWOc_tRydxgU9UjGFHaYGSE",
@@ -42,7 +97,8 @@ var WeimobChat = new cf.ConversationalForm({
         firebase.database().ref((new Date()).getTime()).set(
           jsonform
         ).then(function(){
-          $('thinking').parent().parent().remove();
+          var thinking = document.getElementsByTagName('thinking');
+          thinking[0].parentNode.parentNode.remove();
           WeimobChat._eventTarget.cf.addUserChatResponse(value);
           WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
           document.getElementsByTagName('cf-input')[0].setAttribute('style','display:none');

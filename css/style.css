@@ -12,7 +12,7 @@
   padding: 0;
 }
 .conversational-form cf-chat {
-  /*padding-bottom: 56px;*/
+  /*padding-bottom: 58px;*/
   margin: 0;
 }
 .conversational-form cf-chat-response {
@@ -50,6 +50,7 @@
   max-width: 300px;
 }
 .conversational-form cf-input {
+  /*position: absolute;*/
   bottom: 0;
   right: 0;
   margin-right: 0;
@@ -60,7 +61,7 @@
 }
 .conversational-form cf-input input,
 .conversational-form cf-input textarea {
-  height: 56px;
+  height: 58px;
   padding: 20px;
   font-size: 14px;
   outline: none;

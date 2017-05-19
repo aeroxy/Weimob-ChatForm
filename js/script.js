@@ -102,6 +102,7 @@ var WeimobChat = new cf.ConversationalForm({
           WeimobChat._eventTarget.cf.addUserChatResponse(value);
           WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
           document.getElementsByTagName('cf-input')[0].setAttribute('style','display:none');
+          document.getElementsByTagName('cf-chat')[0].setAttribute('style','padding-bottom:0');
         });
       };
     }
@@ -109,6 +110,10 @@ var WeimobChat = new cf.ConversationalForm({
       if (dto.tag.domElement.getAttribute('name') == 'number') {
         success();
         document.getElementsByTagName('textarea')[0].setAttribute('disabled','disabled');
+      } else if (dto.tag.domElement.getAttribute('name') == 'pic') {
+        success();
+        document.getElementsByTagName('textarea')[0].classList.add('hidden');
+        document.getElementsByTagName('cf-input-button')[0].classList.add('hidden');
       } else if (dto.tag.domElement.getAttribute('name') == 'mission') {
         if (dto.tag.domElement.value == '公务') {
           success();
@@ -116,6 +121,8 @@ var WeimobChat = new cf.ConversationalForm({
         } else {
           submission(dto.tag.domElement.value);
         }
+        document.getElementsByTagName('textarea')[0].classList.remove('hidden');
+        document.getElementsByTagName('cf-input-button')[0].classList.remove('hidden');
       } else if (dto.tag.domElement.getAttribute('name') == 'visitee') {
         submission(dto.tag.domElement.value);
       }

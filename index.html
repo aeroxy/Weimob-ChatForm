@@ -14,6 +14,8 @@
     *{
       font-family: '微软雅黑', 'Microsoft Yahei', 'Heiti', Sans-Serif;
       font-size: 14px;
+      overflow-scrolling: touch;
+      -webkit-overflow-scrolling: touch;
     }
     html,body {
       margin: 0;
@@ -210,7 +212,7 @@
     <link rel="stylesheet" href="css/conversational-form.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
     <div id="app">
-      <form id="chat" method="post" action="{{action_url_here}}" enctype="multipart/form-data">
+      <form id="chat">
         <fieldset>
           <input required cf-questions="欢迎来访微盟！我是对话表格（不是表哥哦）。麻烦您报一下姓名哈。" type="text" class="form-control" name="name" id="name">
         </fieldset>

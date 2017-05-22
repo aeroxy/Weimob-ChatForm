@@ -88,8 +88,8 @@ var WeimobChat = new cf.ConversationalForm({
         img.src = reader.result;
         var canvas = document.createElement('canvas');
         img.onload = function(){
-          canvas.width = 1000;
-          canvas.height = 1000;
+          canvas.width = img.width;
+          canvas.height = img.height;
         }
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);

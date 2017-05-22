@@ -88,22 +88,27 @@ var WeimobChat = new cf.ConversationalForm({
         img.src = reader.result;
         var canvas = document.createElement('canvas');
         img.onload = function(){
-          canvas.width = img.width;
-          canvas.height = img.height;
+          if (img.width > img.height) {
+            canvas.width = 640;
+            canvas.height = img.height / img.width * 640;
+          } else {
+            canvas.height = 640;
+            canvas.width = img.width / img.height * 640;
+          }
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+          jsonform.pic = canvas.toDataURL('image/jpeg', 0.2);
+          firebase.database().ref((new Date()).getTime()).set(
+            jsonform
+          ).then(function(){
+            var thinking = document.getElementsByTagName('thinking');
+            thinking[0].parentNode.parentNode.remove();
+            WeimobChat._eventTarget.cf.addUserChatResponse(value);
+            WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
+            document.getElementsByTagName('cf-input')[0].setAttribute('style','display:none');
+            document.getElementsByTagName('cf-chat')[0].setAttribute('style','padding-bottom:0');
+          });
         }
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-        jsonform.pic = canvas.toDataURL('image/jpeg', 0.5);
-        firebase.database().ref((new Date()).getTime()).set(
-          jsonform
-        ).then(function(){
-          var thinking = document.getElementsByTagName('thinking');
-          thinking[0].parentNode.parentNode.remove();
-          WeimobChat._eventTarget.cf.addUserChatResponse(value);
-          WeimobChat._eventTarget.cf.addRobotChatResponse('收到您的信息啦 🙌，谢谢 🙏');
-          document.getElementsByTagName('cf-input')[0].setAttribute('style','display:none');
-          document.getElementsByTagName('cf-chat')[0].setAttribute('style','padding-bottom:0');
-        });
       };
     }
     if (dto.tag.domElement) {

@@ -88,8 +88,8 @@ var WeimobChat = new cf.ConversationalForm({
         img.src = reader.result;
         var canvas = document.createElement('canvas');
         img.onload = function(){
-          canvas.width = img.width;
-          canvas.height = img.height;
+          canvas.width = 1000;
+          canvas.height = 1000;
         }
         var ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
@@ -129,6 +129,9 @@ var WeimobChat = new cf.ConversationalForm({
       else {
         success();
       }
+      window.self.focus();
+      document.getElementsByTagName('textarea')[0].focus();
+      document.getElementsByTagName('textarea')[0].select();
     } else {
       success();
     }

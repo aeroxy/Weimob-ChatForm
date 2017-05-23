@@ -1,3 +1,4 @@
+var isNewAndroidWC = false;
 (function(funcName, baseObj) {
   funcName = funcName || 'docReady';
   baseObj = baseObj || window;
@@ -42,21 +43,33 @@
     }
   }
 })('docReady', window);
-docReady(function() {
+docReady(function(){
+  var isAndroid = 'Android';
+  var isMicroMessenger = 'MicroMessenger/6.5.8';
+  if (navigator.userAgent.indexOf(isAndroid) !== -1 && navigator.userAgent.indexOf(isMicroMessenger) !== -1) {
+    isNewAndroidWC = true;
+    setInterval(function(){
+      if (document.activeElement !== document.getElementsByTagName('textarea')[0]) document.getElementById('conversational-form').removeAttribute('style');
+    },200);
+  }
   var loading = document.getElementById('loading');
   loading.remove();
   var textarea = document.getElementsByTagName('textarea');
+  function doitafterfocus(){
+    setTimeout(function(){
+      window.scrollTo(0, 65535);
+      if (isNewAndroidWC) {
+        document.getElementById('conversational-form').setAttribute('style','height:55%;margin-top:0');
+      }
+    },100);
+  }
   if(!document.addEventListener){
     textarea[0].attachEvent('focus', function(){
-      setTimeout(function(){
-        window.scrollTo(0, 65535);
-      },100);
+      doitafterfocus();
     });
   } else {
     textarea[0].addEventListener('focus', function(){
-      setTimeout(function(){
-        window.scrollTo(0, 65535);
-      },100);
+      doitafterfocus();
     });
   }
 });

@@ -55,23 +55,19 @@ docReady(function(){
   var loading = document.getElementById('loading');
   loading.remove();
   var textarea = document.getElementsByTagName('textarea');
-  function doitafterfocus(){
-    setTimeout(function(){
-      window.scrollTo(0, 65535);
-      if (isNewAndroidWC) {
-        document.getElementById('conversational-form').setAttribute('style','height:55%;margin-top:0');
-      }
-    },100);
-  }
-  if(!document.addEventListener){
-    textarea[0].attachEvent('focus', function(){
-      doitafterfocus();
+  textarea[0].addEventListener('touchstart', function(){
+    // textarea[0].addEventListener('touchend', function(){
+      setTimeout(function(){
+        window.scrollTo(0, 65535);
+        if (isNewAndroidWC) {
+          document.getElementById('conversational-form').setAttribute('style','height:55%;margin-top:0');
+          document.addEventListener('backbutton', function(){
+            alert('hello');
+          });
+        }
+      },100);
     });
-  } else {
-    textarea[0].addEventListener('focus', function(){
-      doitafterfocus();
-    });
-  }
+  // });
 });
 var config = {
   apiKey: "AIzaSyAwi6QIrGQLsWOc_tRydxgU9UjGFHaYGSE",

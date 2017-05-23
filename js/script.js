@@ -15,7 +15,7 @@ var isNewAndroidWC = false;
     }
   }
   function readyStateChange() {
-    if ( document.readyState === 'complete' ) {
+    if (document.readyState === 'complete') {
       ready();
     }
   }
@@ -55,19 +55,14 @@ docReady(function(){
   var loading = document.getElementById('loading');
   loading.remove();
   var textarea = document.getElementsByTagName('textarea');
-  textarea[0].addEventListener('touchstart', function(){
-    // textarea[0].addEventListener('touchend', function(){
-      setTimeout(function(){
-        window.scrollTo(0, 65535);
-        if (isNewAndroidWC) {
-          document.getElementById('conversational-form').setAttribute('style','height:55%;margin-top:0');
-          document.addEventListener('backbutton', function(){
-            alert('hello');
-          });
-        }
-      },100);
-    });
-  // });
+  textarea[0].addEventListener('touchend', function(){
+    setTimeout(function(){
+      window.scrollTo(0, 65535);
+      if (isNewAndroidWC) {
+        document.getElementById('conversational-form').setAttribute('style','height:55%;margin-top:0');
+      }
+    },100);
+  });
 });
 var config = {
   apiKey: "AIzaSyAwi6QIrGQLsWOc_tRydxgU9UjGFHaYGSE",
@@ -132,7 +127,7 @@ var WeimobChat = new cf.ConversationalForm({
         document.getElementsByTagName('textarea')[0].classList.add('hidden');
         document.getElementsByTagName('cf-input-button')[0].classList.add('hidden');
       } else if (dto.tag.domElement.getAttribute('name') == 'mission') {
-        if (dto.tag.domElement.value == '公务') {
+        if (dto.tag.domElement.value == '拜访') {
           success();
           document.getElementsByTagName('textarea')[0].removeAttribute('disabled');
         } else {
